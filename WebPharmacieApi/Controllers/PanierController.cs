@@ -10,30 +10,31 @@ using WebPharmacieApi.Modeles;
 
 namespace WebPharmacieApi.Controllers
 {
-    public class UtilisateurController :BaseController
+    public class PanierController : BaseController
     {
+
         [HttpGet]
 
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await db.Utilisateurs.OrderByDescending(x => x.CodeUtilisateur).ToArrayAsync());
+            return Ok(await db.Paniers.OrderByDescending(x => x.PanierId).ToArrayAsync());
         }
 
         [HttpGet]
         public async Task<IHttpActionResult> Details(int id)
         {
-            return Ok(await db.Utilisateurs.FindAsync(id));
+            return Ok(await db.Paniers.FindAsync(id));
         }
 
 
         [HttpPut]
-        public async Task<IHttpActionResult> Put([FromBody] Utilisateur item)
+        public async Task<IHttpActionResult> Put([FromBody] Panier item)
         {
-            var olditem = await db.Utilisateurs.AsNoTracking().FirstOrDefaultAsync(x => x.IdUtilisateur == item.IdUtilisateur);
+            var olditem = await db.Paniers.AsNoTracking().FirstOrDefaultAsync(x => x.IdPanier == item.IdPanier);
             if (olditem != null)
             {
 
-
+            
                 db.Entry(item).State = EntityState.Modified;
                 await db.SaveChangesAsync();
             }
@@ -42,10 +43,10 @@ namespace WebPharmacieApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post([FromBody] Utilisateur item)
+        public async Task<IHttpActionResult> Post([FromBody] Panier item)
         {
-
-            db.Utilisateurs.Add(item);
+           
+            db.Paniers.Add(item);
             await db.SaveChangesAsync();
             return Ok();
         }
@@ -54,10 +55,10 @@ namespace WebPharmacieApi.Controllers
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            var item = await db.Utilisateurs.FindAsync(id);
+            var item = await db.Paniers.FindAsync(id);
             if (item != null)
             {
-                db.Utilisateurs.Remove(item);
+                db.Paniers.Remove(item);
                 await db.SaveChangesAsync();
             }
             return Ok(item);

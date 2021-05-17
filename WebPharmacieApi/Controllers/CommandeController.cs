@@ -10,26 +10,26 @@ using WebPharmacieApi.Modeles;
 
 namespace WebPharmacieApi.Controllers
 {
-    public class UtilisateurController :BaseController
+    public class CommandeController : BaseController
     {
         [HttpGet]
 
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await db.Utilisateurs.OrderByDescending(x => x.CodeUtilisateur).ToArrayAsync());
+            return Ok(await db.Commandes.OrderByDescending(x => x.IdCommande).ToArrayAsync());
         }
 
         [HttpGet]
         public async Task<IHttpActionResult> Details(int id)
         {
-            return Ok(await db.Utilisateurs.FindAsync(id));
+            return Ok(await db.Commandes.FindAsync(id));
         }
 
 
         [HttpPut]
-        public async Task<IHttpActionResult> Put([FromBody] Utilisateur item)
+        public async Task<IHttpActionResult> Put([FromBody] Commande item)
         {
-            var olditem = await db.Utilisateurs.AsNoTracking().FirstOrDefaultAsync(x => x.IdUtilisateur == item.IdUtilisateur);
+            var olditem = await db.Commandes.AsNoTracking().FirstOrDefaultAsync(x => x.IdCommande == item.IdCommande);
             if (olditem != null)
             {
 
@@ -42,10 +42,10 @@ namespace WebPharmacieApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post([FromBody] Utilisateur item)
+        public async Task<IHttpActionResult> Post([FromBody] Commande item)
         {
 
-            db.Utilisateurs.Add(item);
+            db.Commandes.Add(item);
             await db.SaveChangesAsync();
             return Ok();
         }
@@ -54,10 +54,10 @@ namespace WebPharmacieApi.Controllers
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            var item = await db.Utilisateurs.FindAsync(id);
+            var item = await db.Commandes.FindAsync(id);
             if (item != null)
             {
-                db.Utilisateurs.Remove(item);
+                db.Commandes.Remove(item);
                 await db.SaveChangesAsync();
             }
             return Ok(item);

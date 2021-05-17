@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebPharmacieApi.Models
+namespace WebPharmacieApi.Modeles
 {
     using System;
     using System.Collections.Generic;

@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using WebPharmacieApi.Models;
+using WebPharmacieApi.Modeles;
 
 namespace WebPharmacieApi.Controllers
 {
@@ -25,12 +25,15 @@ namespace WebPharmacieApi.Controllers
             return Ok(await db.Categories.FindAsync(id));
         }
 
+
         [HttpPut]
         public async Task<IHttpActionResult> Put([FromBody] Categorie item)
         {
             var olditem = await db.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.IdCategorie == item.IdCategorie);
             if (olditem != null)
             {
+
+               
                 db.Entry(item).State = EntityState.Modified;
                 await db.SaveChangesAsync();
             }
@@ -59,6 +62,5 @@ namespace WebPharmacieApi.Controllers
             }
             return Ok(item);
         }
-
     }
 }

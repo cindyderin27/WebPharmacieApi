@@ -7,22 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebPharmacieApi.Models
+namespace WebPharmacieApi.Modeles
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Stock
+    public partial class Utilisateur
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Stock()
+        public Utilisateur()
         {
             this.Medicaments = new HashSet<Medicament>();
         }
     
-        public int IdStock { get; set; }
-        public int QteStock { get; set; }
-        public double MontantTotal { get; set; }
+        public int IdUtilisateur { get; set; }
+        public string CodeUtilisateur { get; set; }
+        public string NomUtilisateur { get; set; }
+        public string Email { get; set; }
+        public string MotPasse { get; set; }
+        public int Role { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Medicament> Medicaments { get; set; }
