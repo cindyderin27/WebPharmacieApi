@@ -6,18 +6,17 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using WebPharmacieApi.Models.Entities;
+using WebPharmacieApi.Models;
 
 namespace WebPharmacieApi.Controllers
 {
-    public class CategorieController : ApiController
+    public class CategorieController : BaseController
     {
-        protected readonly PharmacieAspEntities db;
         [HttpGet]
 
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await db.Categories.ToArrayAsync());
+            return Ok(await db.Categories.OrderByDescending(x => x.ReferenceCategorie).ToArrayAsync());
         }
 
         [HttpGet]
@@ -25,7 +24,6 @@ namespace WebPharmacieApi.Controllers
         {
             return Ok(await db.Categories.FindAsync(id));
         }
-
 
         [HttpPut]
         public async Task<IHttpActionResult> Put([FromBody] Categorie item)
@@ -43,14 +41,14 @@ namespace WebPharmacieApi.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> Post([FromBody] Categorie item)
         {
-
+          
             db.Categories.Add(item);
             await db.SaveChangesAsync();
             return Ok();
         }
 
 
-       
+        [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
             var item = await db.Categories.FindAsync(id);

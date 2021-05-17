@@ -7,18 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebPharmacieApi.Models.Entities
+namespace WebPharmacieApi.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Panier
+    public partial class Commande
     {
-        public int IdPanier { get; set; }
-        public int Qte { get; set; }
+        public int IdCommande { get; set; }
+        public string CodeCommande { get; set; }
+        public string NomCommande { get; set; }
+        public System.DateTime DateCommande { get; set; }
+        public int QteCommande { get; set; }
+        public double MontantCommande { get; set; }
         public int IdMedicament { get; set; }
-        public string PanierId { get; set; }
     
+        public virtual Commande Commande1 { get; set; }
+        public virtual Commande Commande2 { get; set; }
         public virtual Medicament Medicament { get; set; }
     }
 }

@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebPharmacieApi.Models.Entities
+namespace WebPharmacieApi.Models
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PharmacieAspEntities : DbContext
+    public partial class PharmacieAspEntities1 : DbContext
     {
-        public PharmacieAspEntities()
-            : base("name=PharmacieAspEntities")
+        public PharmacieAspEntities1()
+            : base("name=PharmacieAspEntities1")
         {
         }
     
