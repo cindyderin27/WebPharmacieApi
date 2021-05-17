@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PharmacieAspModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PharmacieAspModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categorie">
           <Key>
             <PropertyRef Name="IdCategorie" />
@@ -39,6 +39,15 @@
           <Property Name="IdUtilisateur" Type="int" Nullable="false" />
           <Property Name="IdStock" Type="int" Nullable="false" />
           <Property Name="IdCategorie" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Panier">
+          <Key>
+            <PropertyRef Name="IdPanier" />
+          </Key>
+          <Property Name="IdPanier" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Qte" Type="int" Nullable="false" />
+          <Property Name="IdMedicament" Type="int" Nullable="false" />
+          <Property Name="PanierId" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -119,10 +128,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Panier_Medicament">
+          <End Role="Medicament" Type="Self.Medicament" Multiplicity="1" />
+          <End Role="Panier" Type="Self.Panier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicament">
+              <PropertyRef Name="IdMedicament" />
+            </Principal>
+            <Dependent Role="Panier">
+              <PropertyRef Name="IdMedicament" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PharmacieAspModelStoreContainer">
           <EntitySet Name="Categorie" EntityType="Self.Categorie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Commande" EntityType="Self.Commande" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medicament" EntityType="Self.Medicament" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Panier" EntityType="Self.Panier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Utilisateur" EntityType="Self.Utilisateur" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Commande_Commande" Association="Self.FK_Commande_Commande">
@@ -145,54 +167,100 @@
             <End Role="Utilisateur" EntitySet="Utilisateur" />
             <End Role="Medicament" EntitySet="Medicament" />
           </AssociationSet>
+          <AssociationSet Name="FK_Panier_Medicament" Association="Self.FK_Panier_Medicament">
+            <End Role="Medicament" EntitySet="Medicament" />
+            <End Role="Panier" EntitySet="Panier" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PharmacieAspModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PharmacieAspEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="PharmacieAspModel.Categorie" />
+          <EntitySet Name="Commandes" EntityType="PharmacieAspModel.Commande" />
+          <EntitySet Name="Medicaments" EntityType="PharmacieAspModel.Medicament" />
+          <EntitySet Name="Paniers" EntityType="PharmacieAspModel.Panier" />
+          <EntitySet Name="Stocks" EntityType="PharmacieAspModel.Stock" />
+          <EntitySet Name="Utilisateurs" EntityType="PharmacieAspModel.Utilisateur" />
+          <AssociationSet Name="FK_Medicament_Categorie" Association="PharmacieAspModel.FK_Medicament_Categorie">
+            <End Role="Categorie" EntitySet="Categories" />
+            <End Role="Medicament" EntitySet="Medicaments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Commande" Association="PharmacieAspModel.FK_Commande_Commande">
+            <End Role="Commande" EntitySet="Commandes" />
+            <End Role="Commande1" EntitySet="Commandes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Medicament" Association="PharmacieAspModel.FK_Commande_Medicament">
+            <End Role="Medicament" EntitySet="Medicaments" />
+            <End Role="Commande" EntitySet="Commandes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Medicament_Stock" Association="PharmacieAspModel.FK_Medicament_Stock">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="Medicament" EntitySet="Medicaments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Medicament_Utilisateur" Association="PharmacieAspModel.FK_Medicament_Utilisateur">
+            <End Role="Utilisateur" EntitySet="Utilisateurs" />
+            <End Role="Medicament" EntitySet="Medicaments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Panier_Medicament" Association="PharmacieAspModel.FK_Panier_Medicament">
+            <End Role="Medicament" EntitySet="Medicaments" />
+            <End Role="Panier" EntitySet="Paniers" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Categorie">
           <Key>
             <PropertyRef Name="IdCategorie" />
           </Key>
           <Property Name="IdCategorie" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ReferenceCategorie" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NomCategorie" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Medicaments" Relationship="Self.FK_Medicament_Categorie" FromRole="Categorie" ToRole="Medicament" />
+          <Property Name="ReferenceCategorie" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NomCategorie" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Medicaments" Relationship="PharmacieAspModel.FK_Medicament_Categorie" FromRole="Categorie" ToRole="Medicament" />
         </EntityType>
         <EntityType Name="Commande">
           <Key>
             <PropertyRef Name="IdCommande" />
           </Key>
           <Property Name="IdCommande" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CodeCommande" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NomCommande" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodeCommande" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NomCommande" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="DateCommande" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="QteCommande" Type="Int32" Nullable="false" />
           <Property Name="MontantCommande" Type="Double" Nullable="false" />
           <Property Name="IdMedicament" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Commande1" Relationship="Self.FK_Commande_Commande" FromRole="Commande" ToRole="Commande1" />
-          <NavigationProperty Name="Commande2" Relationship="Self.FK_Commande_Commande" FromRole="Commande1" ToRole="Commande" />
-          <NavigationProperty Name="Medicament" Relationship="Self.FK_Commande_Medicament" FromRole="Commande" ToRole="Medicament" />
+          <NavigationProperty Name="Commande1" Relationship="PharmacieAspModel.FK_Commande_Commande" FromRole="Commande" ToRole="Commande1" />
+          <NavigationProperty Name="Commande2" Relationship="PharmacieAspModel.FK_Commande_Commande" FromRole="Commande1" ToRole="Commande" />
+          <NavigationProperty Name="Medicament" Relationship="PharmacieAspModel.FK_Commande_Medicament" FromRole="Commande" ToRole="Medicament" />
         </EntityType>
         <EntityType Name="Medicament">
           <Key>
             <PropertyRef Name="IdMedicament" />
           </Key>
           <Property Name="IdMedicament" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nom" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Reference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="DateFabrication" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DatePeremption" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Composition" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Composition" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="PrixUnitaire" Type="Double" Nullable="false" />
           <Property Name="IdUtilisateur" Type="Int32" Nullable="false" />
           <Property Name="IdStock" Type="Int32" Nullable="false" />
           <Property Name="IdCategorie" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Categorie" Relationship="Self.FK_Medicament_Categorie" FromRole="Medicament" ToRole="Categorie" />
-          <NavigationProperty Name="Commandes" Relationship="Self.FK_Commande_Medicament" FromRole="Medicament" ToRole="Commande" />
-          <NavigationProperty Name="Stock" Relationship="Self.FK_Medicament_Stock" FromRole="Medicament" ToRole="Stock" />
-          <NavigationProperty Name="Utilisateur" Relationship="Self.FK_Medicament_Utilisateur" FromRole="Medicament" ToRole="Utilisateur" />
+          <NavigationProperty Name="Categorie" Relationship="PharmacieAspModel.FK_Medicament_Categorie" FromRole="Medicament" ToRole="Categorie" />
+          <NavigationProperty Name="Commandes" Relationship="PharmacieAspModel.FK_Commande_Medicament" FromRole="Medicament" ToRole="Commande" />
+          <NavigationProperty Name="Stock" Relationship="PharmacieAspModel.FK_Medicament_Stock" FromRole="Medicament" ToRole="Stock" />
+          <NavigationProperty Name="Utilisateur" Relationship="PharmacieAspModel.FK_Medicament_Utilisateur" FromRole="Medicament" ToRole="Utilisateur" />
+          <NavigationProperty Name="Paniers" Relationship="PharmacieAspModel.FK_Panier_Medicament" FromRole="Medicament" ToRole="Panier" />
+        </EntityType>
+        <EntityType Name="Panier">
+          <Key>
+            <PropertyRef Name="IdPanier" />
+          </Key>
+          <Property Name="IdPanier" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Qte" Type="Int32" Nullable="false" />
+          <Property Name="IdMedicament" Type="Int32" Nullable="false" />
+          <Property Name="PanierId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Medicament" Relationship="PharmacieAspModel.FK_Panier_Medicament" FromRole="Panier" ToRole="Medicament" />
         </EntityType>
         <EntityType Name="Stock">
           <Key>
@@ -201,23 +269,23 @@
           <Property Name="IdStock" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="QteStock" Type="Int32" Nullable="false" />
           <Property Name="MontantTotal" Type="Double" Nullable="false" />
-          <NavigationProperty Name="Medicaments" Relationship="Self.FK_Medicament_Stock" FromRole="Stock" ToRole="Medicament" />
+          <NavigationProperty Name="Medicaments" Relationship="PharmacieAspModel.FK_Medicament_Stock" FromRole="Stock" ToRole="Medicament" />
         </EntityType>
         <EntityType Name="Utilisateur">
           <Key>
             <PropertyRef Name="IdUtilisateur" />
           </Key>
           <Property Name="IdUtilisateur" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CodeUtilisateur" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NomUtilisateur" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="MotPasse" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodeUtilisateur" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NomUtilisateur" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MotPasse" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Role" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Medicaments" Relationship="Self.FK_Medicament_Utilisateur" FromRole="Utilisateur" ToRole="Medicament" />
+          <NavigationProperty Name="Medicaments" Relationship="PharmacieAspModel.FK_Medicament_Utilisateur" FromRole="Utilisateur" ToRole="Medicament" />
         </EntityType>
         <Association Name="FK_Medicament_Categorie">
-          <End Role="Categorie" Type="Self.Categorie" Multiplicity="1" />
-          <End Role="Medicament" Type="Self.Medicament" Multiplicity="*" />
+          <End Type="PharmacieAspModel.Categorie" Role="Categorie" Multiplicity="1" />
+          <End Type="PharmacieAspModel.Medicament" Role="Medicament" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categorie">
               <PropertyRef Name="IdCategorie" />
@@ -228,8 +296,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Commande_Commande">
-          <End Role="Commande" Type="Self.Commande" Multiplicity="1" />
-          <End Role="Commande1" Type="Self.Commande" Multiplicity="0..1" />
+          <End Type="PharmacieAspModel.Commande" Role="Commande" Multiplicity="1" />
+          <End Type="PharmacieAspModel.Commande" Role="Commande1" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Commande">
               <PropertyRef Name="IdCommande" />
@@ -240,8 +308,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Commande_Medicament">
-          <End Role="Medicament" Type="Self.Medicament" Multiplicity="1" />
-          <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
+          <End Type="PharmacieAspModel.Medicament" Role="Medicament" Multiplicity="1" />
+          <End Type="PharmacieAspModel.Commande" Role="Commande" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Medicament">
               <PropertyRef Name="IdMedicament" />
@@ -252,8 +320,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Medicament_Stock">
-          <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
-          <End Role="Medicament" Type="Self.Medicament" Multiplicity="*" />
+          <End Type="PharmacieAspModel.Stock" Role="Stock" Multiplicity="1" />
+          <End Type="PharmacieAspModel.Medicament" Role="Medicament" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stock">
               <PropertyRef Name="IdStock" />
@@ -264,8 +332,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Medicament_Utilisateur">
-          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="1" />
-          <End Role="Medicament" Type="Self.Medicament" Multiplicity="*" />
+          <End Type="PharmacieAspModel.Utilisateur" Role="Utilisateur" Multiplicity="1" />
+          <End Type="PharmacieAspModel.Medicament" Role="Medicament" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Utilisateur">
               <PropertyRef Name="IdUtilisateur" />
@@ -275,33 +343,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="PharmacieAspEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Categories" EntityType="Self.Categorie" />
-          <EntitySet Name="Commandes" EntityType="Self.Commande" />
-          <EntitySet Name="Medicaments" EntityType="Self.Medicament" />
-          <EntitySet Name="Stocks" EntityType="Self.Stock" />
-          <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateur" />
-          <AssociationSet Name="FK_Medicament_Categorie" Association="Self.FK_Medicament_Categorie">
-            <End Role="Categorie" EntitySet="Categories" />
-            <End Role="Medicament" EntitySet="Medicaments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Commande_Commande" Association="Self.FK_Commande_Commande">
-            <End Role="Commande" EntitySet="Commandes" />
-            <End Role="Commande1" EntitySet="Commandes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Commande_Medicament" Association="Self.FK_Commande_Medicament">
-            <End Role="Medicament" EntitySet="Medicaments" />
-            <End Role="Commande" EntitySet="Commandes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Medicament_Stock" Association="Self.FK_Medicament_Stock">
-            <End Role="Stock" EntitySet="Stocks" />
-            <End Role="Medicament" EntitySet="Medicaments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Medicament_Utilisateur" Association="Self.FK_Medicament_Utilisateur">
-            <End Role="Utilisateur" EntitySet="Utilisateurs" />
-            <End Role="Medicament" EntitySet="Medicaments" />
-          </AssociationSet>
-        </EntityContainer>
+        <Association Name="FK_Panier_Medicament">
+          <End Type="PharmacieAspModel.Medicament" Role="Medicament" Multiplicity="1" />
+          <End Type="PharmacieAspModel.Panier" Role="Panier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicament">
+              <PropertyRef Name="IdMedicament" />
+            </Principal>
+            <Dependent Role="Panier">
+              <PropertyRef Name="IdMedicament" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -311,59 +364,69 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="PharmacieAspModel.Categorie">
               <MappingFragment StoreEntitySet="Categorie">
-                <ScalarProperty Name="IdCategorie" ColumnName="IdCategorie" />
-                <ScalarProperty Name="ReferenceCategorie" ColumnName="ReferenceCategorie" />
                 <ScalarProperty Name="NomCategorie" ColumnName="NomCategorie" />
+                <ScalarProperty Name="ReferenceCategorie" ColumnName="ReferenceCategorie" />
+                <ScalarProperty Name="IdCategorie" ColumnName="IdCategorie" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Commandes">
             <EntityTypeMapping TypeName="PharmacieAspModel.Commande">
               <MappingFragment StoreEntitySet="Commande">
-                <ScalarProperty Name="IdCommande" ColumnName="IdCommande" />
-                <ScalarProperty Name="CodeCommande" ColumnName="CodeCommande" />
-                <ScalarProperty Name="NomCommande" ColumnName="NomCommande" />
-                <ScalarProperty Name="DateCommande" ColumnName="DateCommande" />
-                <ScalarProperty Name="QteCommande" ColumnName="QteCommande" />
-                <ScalarProperty Name="MontantCommande" ColumnName="MontantCommande" />
                 <ScalarProperty Name="IdMedicament" ColumnName="IdMedicament" />
+                <ScalarProperty Name="MontantCommande" ColumnName="MontantCommande" />
+                <ScalarProperty Name="QteCommande" ColumnName="QteCommande" />
+                <ScalarProperty Name="DateCommande" ColumnName="DateCommande" />
+                <ScalarProperty Name="NomCommande" ColumnName="NomCommande" />
+                <ScalarProperty Name="CodeCommande" ColumnName="CodeCommande" />
+                <ScalarProperty Name="IdCommande" ColumnName="IdCommande" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Medicaments">
             <EntityTypeMapping TypeName="PharmacieAspModel.Medicament">
               <MappingFragment StoreEntitySet="Medicament">
-                <ScalarProperty Name="IdMedicament" ColumnName="IdMedicament" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="Nom" ColumnName="Nom" />
-                <ScalarProperty Name="DateFabrication" ColumnName="DateFabrication" />
-                <ScalarProperty Name="DatePeremption" ColumnName="DatePeremption" />
-                <ScalarProperty Name="Composition" ColumnName="Composition" />
-                <ScalarProperty Name="PrixUnitaire" ColumnName="PrixUnitaire" />
-                <ScalarProperty Name="IdUtilisateur" ColumnName="IdUtilisateur" />
-                <ScalarProperty Name="IdStock" ColumnName="IdStock" />
                 <ScalarProperty Name="IdCategorie" ColumnName="IdCategorie" />
+                <ScalarProperty Name="IdStock" ColumnName="IdStock" />
+                <ScalarProperty Name="IdUtilisateur" ColumnName="IdUtilisateur" />
+                <ScalarProperty Name="PrixUnitaire" ColumnName="PrixUnitaire" />
+                <ScalarProperty Name="Composition" ColumnName="Composition" />
+                <ScalarProperty Name="DatePeremption" ColumnName="DatePeremption" />
+                <ScalarProperty Name="DateFabrication" ColumnName="DateFabrication" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="IdMedicament" ColumnName="IdMedicament" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paniers">
+            <EntityTypeMapping TypeName="PharmacieAspModel.Panier">
+              <MappingFragment StoreEntitySet="Panier">
+                <ScalarProperty Name="PanierId" ColumnName="PanierId" />
+                <ScalarProperty Name="IdMedicament" ColumnName="IdMedicament" />
+                <ScalarProperty Name="Qte" ColumnName="Qte" />
+                <ScalarProperty Name="IdPanier" ColumnName="IdPanier" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stocks">
             <EntityTypeMapping TypeName="PharmacieAspModel.Stock">
               <MappingFragment StoreEntitySet="Stock">
-                <ScalarProperty Name="IdStock" ColumnName="IdStock" />
-                <ScalarProperty Name="QteStock" ColumnName="QteStock" />
                 <ScalarProperty Name="MontantTotal" ColumnName="MontantTotal" />
+                <ScalarProperty Name="QteStock" ColumnName="QteStock" />
+                <ScalarProperty Name="IdStock" ColumnName="IdStock" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Utilisateurs">
             <EntityTypeMapping TypeName="PharmacieAspModel.Utilisateur">
               <MappingFragment StoreEntitySet="Utilisateur">
-                <ScalarProperty Name="IdUtilisateur" ColumnName="IdUtilisateur" />
-                <ScalarProperty Name="CodeUtilisateur" ColumnName="CodeUtilisateur" />
-                <ScalarProperty Name="NomUtilisateur" ColumnName="NomUtilisateur" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="MotPasse" ColumnName="MotPasse" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="MotPasse" ColumnName="MotPasse" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="NomUtilisateur" ColumnName="NomUtilisateur" />
+                <ScalarProperty Name="CodeUtilisateur" ColumnName="CodeUtilisateur" />
+                <ScalarProperty Name="IdUtilisateur" ColumnName="IdUtilisateur" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

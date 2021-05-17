@@ -28,6 +28,7 @@ namespace WebPharmacieApi.Models.Entities
         public virtual DbSet<Categorie> Categories { get; set; }
         public virtual DbSet<Commande> Commandes { get; set; }
         public virtual DbSet<Medicament> Medicaments { get; set; }
+        public virtual DbSet<Panier> Paniers { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
         public virtual DbSet<Utilisateur> Utilisateurs { get; set; }
     }

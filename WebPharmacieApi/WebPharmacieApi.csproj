@@ -106,6 +106,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategorieController.cs" />
     <Compile Include="Controllers\MedicamentController.cs" />
+    <Compile Include="Controllers\PanierController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\UtilisateurController.cs" />
     <Compile Include="Global.asax.cs">
@@ -134,6 +135,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entities\Panier.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entities\Stock.cs">
       <DependentUpon>Model1.tt</DependentUpon>

@@ -18,6 +18,7 @@ namespace WebPharmacieApi.Models.Entities
         public Medicament()
         {
             this.Commandes = new HashSet<Commande>();
+            this.Paniers = new HashSet<Panier>();
         }
     
         public int IdMedicament { get; set; }
@@ -36,5 +37,7 @@ namespace WebPharmacieApi.Models.Entities
         public virtual ICollection<Commande> Commandes { get; set; }
         public virtual Stock Stock { get; set; }
         public virtual Utilisateur Utilisateur { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Panier> Paniers { get; set; }
     }
 }
