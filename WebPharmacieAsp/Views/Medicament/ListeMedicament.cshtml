@@ -1,0 +1,94 @@
+﻿
+@model IEnumerable<WebPharmacieAsp.Models.Medicament>
+
+@{
+    ViewBag.Title = "Liste des médicaments en fonction des catégories";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<div class="container">
+    <form style="border: 1px;">
+        <Table border="1" id="cart" class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    @*<th>
+            Photo
+        </th>*@
+                    <th>
+                        Reference
+                    </th>
+                    <th>
+                        Nom
+                    </th>
+                    <th>
+                        Date de péremption
+                    </th>
+                    <th>
+                        Prix Unitaire
+                    </th>
+                    <th>
+                        Composition
+                    </th>
+                    <th>
+                        Catégorie
+                    </th>
+
+
+                    <th>
+                        <a href="@Url.Action("Create")">
+
+                            Ajouter
+                        </a>
+
+                    </th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var p in Model)
+                    {
+                        <tr>
+                            @*<td data-th="Image">
+                                    <img src="@p.Image" style="height:50px" class="img-fluid" />
+                                </td>*@
+                            <td data-th="Reference">
+                                @p.Reference
+                            </td>
+
+                            <td data-th="Nom">
+                                @p.Nom
+                            </td>
+                            <td data-th="Date creation">
+                                @p.DatePeremption
+                            </td>
+                            <td data-th="PrixUnitairen">
+                                @p.PrixUnitaire
+                            </td>
+                            <td data-th="Date creation">
+                                @p.Composition
+                            </td>
+                            <td data-th="Date creation">
+                                @p.Categorie.NomCategorie
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", new { id = p.IdMedicament})" class="text-primary">
+                                    Edit
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = p.IdMedicament })" class="text-danger">
+                                    Delete
+                                </a>
+
+                            </td>
+                        </tr>
+
+                    }
+                }
+
+            </tbody>
+        </Table>
+    </form>
+</div>

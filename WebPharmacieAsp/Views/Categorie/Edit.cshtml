@@ -1,0 +1,37 @@
+﻿
+@model WebPharmacieAsp.Models.Categorie
+@{
+    ViewBag.Title = "Modifier une catégorie";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Edit", "Categorie", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.IdCategorie)
+    <div class="text-danger">
+        @Html.ValidationSummary(true)
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.ReferenceCategorie, new { @class = "form-label" })
+        @Html.TextBoxFor(x => x.ReferenceCategorie, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.ReferenceCategorie, null, new { @class = "text-danger small" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.NomCategorie, new { @class = "form-label" })
+        @Html.TextBoxFor(x => x.NomCategorie, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.NomCategorie, null, new { @class = "text-danger small" })
+    </div>
+
+    <div class="col-log-6">
+
+        <button type="submit" class="btn btn-success" style="width:10%">
+            <i class="icon-save">
+                Enregistrer
+            </i>
+        </button>
+    </div>
+
+}

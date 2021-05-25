@@ -1,0 +1,70 @@
+﻿@model IEnumerable<WebPharmacieAsp.Models.Categorie>
+
+@{
+    ViewBag.Title = "Liste des Catégories";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="container">
+    <form style="border: 1px;">
+        <Table border="1" id="cart" class="table table-hover table-condensed">
+            <thead>
+                <tr>
+
+                    <th>
+                        Référence
+                    </th>
+                    <th>
+                       Nom
+                    </th>
+                  
+
+                    <th>
+                        <a href="@Url.Action("Create")">
+
+                            Ajouter
+                        </a>
+
+                    </th>
+
+                </tr>aéaé
+            </thead>
+
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var p in Model)
+                    {
+                <tr>
+                    <td data-th="Nom">
+                        @p.ReferenceCategorie
+                    </td>
+
+                    <td data-th="Nom">
+                        @p.NomCategorie
+                    </td>
+
+                  
+
+
+
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = p.IdCategorie})" class="text-primary">
+                            Edit
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = p.IdCategorie })" class="text-danger">
+                            Delete
+                        </a>
+
+                    </td>
+                </tr>
+
+                    }
+
+                }
+
+            </tbody>
+        </Table>
+    </form>
+</div>
