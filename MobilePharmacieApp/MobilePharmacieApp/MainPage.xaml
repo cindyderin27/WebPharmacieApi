@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobilePharmacieApp.MainPage">
+
+    <ContentPage.Content
+        HorizontalOptions="FillAndExpand"
+		VerticalOptions="CenterAndExpand"
+        BackgroundColor="#White">
+
+
+    
+        <StackLayout
+                     VerticalOptions="CenterAndExpand"
+                    
+                   >
+
+           
+            <Label Text="MEDICIO"
+                    FontAttributes="Bold"
+                     TextColor="Black"
+                    FontSize="50" 
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                  />
+
+            <ActivityIndicator 
+           
+           VerticalOptions="End"
+		IsRunning="true"/>
+
+        </StackLayout>
+
+
+        
+
+    </ContentPage.Content>
+    
+</ContentPage>
+
+
