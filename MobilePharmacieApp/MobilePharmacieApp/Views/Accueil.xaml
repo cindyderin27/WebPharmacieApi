@@ -4,7 +4,6 @@
              x:Class="MobilePharmacieApp.Views.Accueil">
     <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
-
         <StackLayout>
             <Grid Margin="0,0,0,0">
                 <StackLayout Margin="20,0,20,0" Spacing="20">
@@ -23,8 +22,7 @@
                         VerticalOptions="StartAndExpand"
                         WidthRequest="200" />
                 </StackLayout>
-                <Image
-                    HorizontalOptions="EndAndExpand"
+                <Image HorizontalOptions="EndAndExpand"
                     Source="bgImage"
                     WidthRequest="200" />
                 
@@ -124,8 +122,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Padding="10"
-                            BackgroundColor="White"
-                          >
+                            BackgroundColor="White">
                             <StackLayout>
                                 <Image Source="im4" />
                                 <Label
@@ -140,8 +137,267 @@
                         </StackLayout>
                     </Grid>
                 </StackLayout>
+            <CollectionView
+                    x:Name="listProducts"
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2"
+                    Margin="30,0,0,0"
+                    HorizontalScrollBarVisibility="Never"
+                    ItemsSource="{Binding Medicament}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Frame
+                                    Padding="10,5"
+                                    BackgroundColor="{StaticResource colorBlack313}"
+                                    CornerRadius="18"
+                                    HasShadow="False"
+                                    WidthRequest="155">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                            Grid.Row="0"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,-10,0,0"
+                                            Aspect="AspectFit"
+                                            Source="{Binding Image}" />
+                                    <StackLayout
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,-25,0,0"
+                                            Orientation="Horizontal"
+                                            Spacing="2">
+                                        <Label
+                                                FontFamily="FontFontello"
+                                                FontSize="14"
+                                                Text="{x:Static fonticons:FontIcons.Star}"
+                                                TextColor="{StaticResource colorOrangeF6}"
+                                                VerticalOptions="Center" />
+                                        <Label
+                                                FontFamily="FontRobotoRegular"
+                                                FontSize="10"
+                                                Text="{Binding rating, Converter={converter:IsNumberIntConverter}}"
+                                                TextColor="{StaticResource colorOrangeF6}"
+                                                VerticalOptions="Center" />
+                                    </StackLayout>
+                                    <Label
+                                            Grid.Row="2"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,-5,0,8"
+                                            FontFamily="FontRobotoRegular"
+                                            FontSize="14"
+                                            HorizontalOptions="FillAndExpand"
+                                            LineBreakMode="WordWrap"
+                                            Text="{Binding description}" />
+                                    <StackLayout
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            HorizontalOptions="FillAndExpand"
+                                            Orientation="Horizontal"
+                                            VerticalOptions="Center">
+                                        <Label
+                                                FontFamily="FontRobotoRegular"
+                                                FontSize="Micro"
+                                                Text="{Binding weight, StringFormat='{0:N1}ml -'}"
+                                                TextColor="{StaticResource colorGray}" />
+                                        <Label
+                                                Margin="-2,0,0,0"
+                                                FontFamily="FontRobotoRegular"
+                                                FontSize="Micro"
+                                                Text="{Binding price, StringFormat='${0:N2}'}"
+                                                TextColor="{StaticResource colorOrangeF6}" />
+                                    </StackLayout>
+                                    <shadows:Shadows
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            CornerRadius="10"
+                                            Shades="{shadows:SingleShade BlurRadius=8,
+                                                                         Offset='0,6',
+                                                                         Opacity=0.6,
+                                                                         Color='#A2601E'}"
+                                            VerticalOptions="End">
+                                        <Frame
+                                                Padding="16,10"
+                                                BackgroundColor="{StaticResource colorOrangeD99}"
+                                                CornerRadius="10"
+                                                HasShadow="False"
+                                                HorizontalOptions="Center">
+                                            <Label
+                                                    FontFamily="FontFontello"
+                                                    FontSize="24"
+                                                    Text="{x:Static fonticons:FontIcons.Plus}"
+                                                    VerticalOptions="Center" />
+                                        </Frame>
+                                    </shadows:Shadows>
+                                </Grid>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                            Command="{Binding Path=BindingContext.NavigateToDetailPageCommand, Source={x:Reference listProducts}}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <StackLayout
+                    Grid.Row="6"
+                    Grid.ColumnSpan="2"
+                    Margin="30,15,35,0"
+                    Orientation="Horizontal">
+                <Label
+                        FontFamily="FontBarlowBold"
+                        FontSize="20"
+                        HorizontalOptions="StartAndExpand"
+                        Text="Best in Price" />
+                <Label
+                        FontSize="14"
+                        Text="View All"
+                        TextColor="Orange"
+                        VerticalOptions="Center" />
+            </StackLayout>
+            <CollectionView
+                    Grid.Row="7"
+                    Grid.ColumnSpan="2"
+                    Margin="30,0,0,0"
+                    HorizontalScrollBarVisibility="Never"
+                    ItemsSource="{Binding PrixUnitaire}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Frame
+                                    Margin="0,14,0,0"
+                                    Padding="10"
+                                    BackgroundColor="black"
+                                    CornerRadius="18"
+                                    HasShadow="False"
+                                    WidthRequest="225">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="65" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Margin="0,0,0,8"
+                                            FontFamily="FontRobotoRegular"
+                                            FontSize="14"
+                                            HorizontalOptions="FillAndExpand"
+                                            LineBreakMode="WordWrap"
+                                            Text="{Binding Nom}" />
+                                    <Label
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Margin="0,0,0,20"
+                                            FontFamily="FontRobotoRegular"
+                                            FontSize="Micro"
+                                            Text="{Binding weight, StringFormat='{0:N1}ml'}"
+                                            TextColor="{StaticResource colorGray}"
+                                            VerticalOptions="End" />
+                                    <StackLayout
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="3"
+                                            Margin="74,0,0,5"
+                                            Orientation="Horizontal"
+                                            Spacing="10"
+                                            VerticalOptions="Center">
+                                        <Label
+                                                FontFamily="FontRobotoRegular"
+                                                FontSize="Micro"
+                                                HorizontalOptions="FillAndExpand"
+                                                Text="{Binding PrixUnitaire, StringFormat='${0:N2}'}"
+                                                TextColor="{StaticResource colorOrangeF6}"
+                                                VerticalOptions="Center" />
+                                        <Frame
+                                                Padding="8,6"
+                                                BackgroundColor="{StaticResource colorOrangeD99}"
+                                                CornerRadius="8"
+                                                HasShadow="False"
+                                                HorizontalOptions="EndAndExpand">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label
+                                                        FontFamily="FontFontello"
+                                                        FontSize="18"
+                                                        Text="{x:Static fonticons:FontIcons.Plus}" />
+                                                <Label
+                                                        FontFamily="FontRobotoRegular"
+                                                        FontSize="Micro"
+                                                        Text="Add to Bag"
+                                                        VerticalOptions="Center" />
+                                            </StackLayout>
+                                        </Frame>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                            <Image
+                                    Margin="-25,5,0,0"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Start"
+                                    Source="{Binding Image}"
+                                    WidthRequest="125" />
+                        </Grid>
+                    </DataTemplate>
+                    <shadows:Shadows
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Margin="0,0,35,-8"
+                    CornerRadius="10"
+                    HorizontalOptions="EndAndExpand"
+                    Shades="{shadows:SingleShade BlurRadius=40,
+                                                 Offset='0,15',
+                                                 Opacity=0.3,
+                                                 Color={StaticResource colorOrange}}"
+                    VerticalOptions="End">
+                        <pancake:PancakeView
+                        Padding="18,14"
+                        BackgroundColor="{StaticResource colorOrange}"
+                        BorderColor="{StaticResource colorOrangeFF}"
+                        BorderThickness="4"
+                        CornerRadius="16"
+                        HasShadow="False"
+                        HorizontalOptions="EndAndExpand">
+                            <Grid>
+                                <Image
+                                Margin="4"
+                                Aspect="AspectFit"
+                                HeightRequest="30"
+                                Source="shopping_bag" />
+                                <BoxView
+                                Margin="0,2,0,0"
+                                BackgroundColor="{StaticResource colorWhite}"
+                                CornerRadius="5"
+                                HeightRequest="10"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                WidthRequest="10" />
+                            </Grid>
+                        </pancake:PancakeView>
+                    </shadows:Shadows>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-         
         </StackLayout>
     </ScrollView>
 </ContentPage>
